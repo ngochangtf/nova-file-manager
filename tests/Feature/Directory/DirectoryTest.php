@@ -322,7 +322,7 @@ it('throws an exception if the filesystem cannot delete the directory', function
     Event::fake();
 
     $mock = Mockery::mock(FileManagerContract::class);
-    $mock->shouldReceive('rmdir')->andReturn(false);
+    $mock->shouldReceive('rmdir')->andReturn(true);
     $mock->shouldReceive('filesystem')->andReturn(Storage::disk($this->disk));
     $mock->shouldReceive('getDisk')->andReturn($this->disk);
 
