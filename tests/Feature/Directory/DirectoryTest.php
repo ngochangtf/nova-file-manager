@@ -56,10 +56,11 @@ it('can create a directory', function () {
 it('throws an exception if the filesystem cannot create the directory', function () {
     Event::fake();
 
-    $mock = Mockery::mock(FileManagerContract::class);
-    $mock->shouldReceive('mkdir')->andReturn(false);
-    $mock->shouldReceive('filesystem')->andReturn(Storage::disk($this->disk));
-    $mock->shouldReceive('getDisk')->andReturn($this->disk);
+    $mock = mock(FileManagerContract::class)->expect(
+        mkdir: fn ($path) => false,
+        filesystem: fn () => Storage::disk($this->disk),
+        getDisk: fn () => $this->disk,
+    );
 
     app()->instance(FileManagerContract::class, $mock);
 
@@ -158,10 +159,11 @@ it('can rename a directory', function () {
 it('returns validation error when the filesystem can not rename the directory', function () {
     Event::fake();
 
-    $mock = Mockery::mock(FileManagerContract::class);
-    $mock->shouldReceive('rename')->andReturn(false);
-    $mock->shouldReceive('filesystem')->andReturn(Storage::disk($this->disk));
-    $mock->shouldReceive('getDisk')->andReturn($this->disk);
+    $mock = mock(FileManagerContract::class)->expect(
+        rename: fn ($path) => false,
+        filesystem: fn () => Storage::disk($this->disk),
+        getDisk: fn () => $this->disk,
+    );
 
     app()->instance(FileManagerContract::class, $mock);
 
@@ -321,10 +323,11 @@ it('cannot delete a directory which doesnt exist', function () {
 it('throws an exception if the filesystem cannot delete the directory', function () {
     Event::fake();
 
-    $mock = Mockery::mock(FileManagerContract::class);
-    $mock->shouldReceive('rmdir')->andReturn(true);
-    $mock->shouldReceive('filesystem')->andReturn(Storage::disk($this->disk));
-    $mock->shouldReceive('getDisk')->andReturn($this->disk);
+    $mock = mock(FileManagerContract::class)->expect(
+        rmdir: fn ($path) => false,
+        filesystem: fn () => Storage::disk($this->disk),
+        getDisk: fn () => $this->disk,
+    );
 
     app()->instance(FileManagerContract::class, $mock);
 

@@ -249,10 +249,11 @@ it('cannot rename a file to an existing name', function () {
 it('throws an exception if the filesystem cannot rename the file', function () {
     Event::fake();
 
-    $mock = Mockery::mock(FileManagerContract::class);
-    $mock->shouldReceive('rename')->andReturn(false);
-    $mock->shouldReceive('filesystem')->andReturn(Storage::disk($this->disk));
-    $mock->shouldReceive('getDisk')->andReturn($this->disk);
+    $mock = mock(FileManagerContract::class)->expect(
+        rename: fn (string $from, string $to) => false,
+        filesystem: fn () => Storage::disk($this->disk),
+        getDisk: fn () => $this->disk,
+    );
 
     app()->instance(FileManagerContract::class, $mock);
 
@@ -372,10 +373,11 @@ it('cant delete a non existing file', function () {
 it('throws an exception if the filesystem cannot delete the file', function () {
     Event::fake();
 
-    $mock = Mockery::mock(FileManagerContract::class);
-    $mock->shouldReceive('delete')->andReturn(false);
-    $mock->shouldReceive('filesystem')->andReturn(Storage::disk($this->disk));
-    $mock->shouldReceive('getDisk')->andReturn($this->disk);
+    $mock = mock(FileManagerContract::class)->expect(
+        delete: fn (string $path) => false,
+        filesystem: fn () => Storage::disk($this->disk),
+        getDisk: fn () => $this->disk,
+    );
 
     app()->instance(FileManagerContract::class, $mock);
 
@@ -461,10 +463,11 @@ it('can unzip an archive', function () {
 it('throws an exception if the filesystem cannot unzip the archive', function () {
     Event::fake();
 
-    $mock = Mockery::mock(FileManagerContract::class);
-    $mock->shouldReceive('unzip')->andReturn(false);
-    $mock->shouldReceive('filesystem')->andReturn(Storage::disk($this->disk));
-    $mock->shouldReceive('getDisk')->andReturn($this->disk);
+    $mock = mock(FileManagerContract::class)->expect(
+        unzip: fn (string $path) => false,
+        filesystem: fn () => Storage::disk($this->disk),
+        getDisk: fn () => $this->disk,
+    );
 
     app()->instance(FileManagerContract::class, $mock);
 
