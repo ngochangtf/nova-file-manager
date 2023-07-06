@@ -336,7 +336,7 @@ it('throws an exception if the filesystem cannot delete the directory', function
         uri: route('nova-file-manager.folders.delete'),
         data: [
             'disk' => $this->disk,
-            'path' => $path . '_error',
+            'path' => $path,
         ]
     )
         ->assertJsonValidationErrors([
