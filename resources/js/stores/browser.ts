@@ -587,7 +587,7 @@ const useBrowserStore = defineStore('nova-file-manager/browser', {
       this.isUploading = true
 
       const uploader = new Resumable({
-        permanentErrors: [400, 404, 415, 422, 500, 501],
+        permanentErrors: [400, 404, 409, 415, 419, 422, 500, 501],
         chunkSize: this.chunkSize,
         maxChunkRetries: 5,
         chunkRetryInterval: 1e3,
